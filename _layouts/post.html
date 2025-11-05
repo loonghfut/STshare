@@ -30,7 +30,12 @@ layout: default
   <div class="post-content">
     <aside class="toc-wrapper">
       <nav class="toc">
-        <h3>📑 目录</h3>
+        <div class="toc-header">
+          <h3>📑 目录</h3>
+          <button class="toc-toggle" aria-label="Toggle table of contents">
+            <span class="toc-toggle-icon">▼</span>
+          </button>
+        </div>
         <div id="toc-content"></div>
       </nav>
     </aside>
@@ -42,10 +47,49 @@ layout: default
 </article>
 
 <script>
+  // Detect and move header image (Notion-style)
+  (function() {
+    const articleBody = document.querySelector('.article-body');
+    const articleHeader = document.querySelector('.article-header');
+    
+    if (!articleBody || !articleHeader || !articleHeader.parentElement) return;
+    
+    // Find the first image in article body
+    const firstImg = articleBody.querySelector('img');
+    
+    if (firstImg) {
+      // Check if the image is at the very beginning (first or second element)
+      const firstElements = Array.from(articleBody.children).slice(0, 2);
+      const imgParent = firstImg.parentElement;
+      
+      // If image is in the first two elements, treat it as a header image
+      if (firstElements.includes(firstImg) || firstElements.includes(imgParent)) {
+        // Create header image container
+        const headerImageContainer = document.createElement('div');
+        headerImageContainer.className = 'notion-header-image';
+        
+        // Clone the image
+        const headerImg = firstImg.cloneNode(true);
+        headerImageContainer.appendChild(headerImg);
+        
+        // Insert before article header
+        articleHeader.parentElement.insertBefore(headerImageContainer, articleHeader);
+        
+        // Remove original image from article body
+        if (imgParent.tagName === 'P' && imgParent.children.length === 1) {
+          imgParent.remove();
+        } else {
+          firstImg.remove();
+        }
+      }
+    }
+  })();
+
   // Generate table of contents
   (function() {
     const articleBody = document.querySelector('.article-body');
     const tocContent = document.getElementById('toc-content');
+    const tocWrapper = document.querySelector('.toc-wrapper');
     
     if (!articleBody || !tocContent) return;
     
@@ -53,7 +97,7 @@ layout: default
     
     if (headings.length === 0) {
       // If no headings, hide the TOC
-      document.querySelector('.toc-wrapper').style.display = 'none';
+      tocWrapper.style.display = 'none';
       document.querySelector('.post-content').style.gridTemplateColumns = '1fr';
       return;
     }
@@ -104,6 +148,31 @@ layout: default
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
+    });
+    
+    // TOC collapse/expand functionality
+    const tocToggle = document.querySelector('.toc-toggle');
+    const tocIcon = document.querySelector('.toc-toggle-icon');
+    
+    // Load saved state from localStorage
+    const tocCollapsed = localStorage.getItem('toc-collapsed') === 'true';
+    if (tocCollapsed) {
+      tocContent.classList.add('collapsed');
+      tocIcon.textContent = '▶';
+    }
+    
+    tocToggle.addEventListener('click', () => {
+      const isCollapsed = tocContent.classList.contains('collapsed');
+      
+      if (isCollapsed) {
+        tocContent.classList.remove('collapsed');
+        tocIcon.textContent = '▼';
+        localStorage.setItem('toc-collapsed', 'false');
+      } else {
+        tocContent.classList.add('collapsed');
+        tocIcon.textContent = '▶';
+        localStorage.setItem('toc-collapsed', 'true');
+      }
     });
   })();
 </script>
