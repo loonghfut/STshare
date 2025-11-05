@@ -3,46 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title | default: "Loonghfut's siyuan share" }}</title>
-  <meta name="description" content="{{ page.description | default: site.description | default: 'Map of Content Navigation' }}">
-  <meta name="theme-color" content="#0ea5a4">
-  <!-- Google Fonts: Noto Sans SC (for Chinese) + Inter -->
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title | default: '龙湖浮图' }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | default: '国风笔记与知识分享' }}">
+  <meta name="theme-color" content="#c2504c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <script>
-    // Apply theme immediately to prevent flash
     (function() {
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        if (savedTheme === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      } else if (window.matchMedia) {
-        const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        if (darkModeQuery && darkModeQuery.matches) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        return;
+      }
+      if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();
   </script>
   <style>
-    /* small inline utility to avoid layout shift on very small screens */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
 </head>
-<body>
+<body class="theme-silk">
   <a class="sr-only" href="#main-content">跳到主要内容</a>
-  {% include header.html %}
+  <div class="page-wrapper">
+    {% include header.html %}
 
-  <main id="main-content">
-    {{ content }}
-  </main>
+    <main id="main-content" class="content-shell">
+      {{ content }}
+    </main>
 
-  <footer style="max-width:1200px;margin:40px auto;padding:20px;color:var(--text-muted);text-align:center;">
-    <small>© {{ site.time | date: '%Y' }} {{ site.title | default: "Loonghfut's MOC" }} · Built with Jekyll</small>
-  </footer>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-title">{{ site.title | default: '龙湖浮图' }}</p>
+        <p class="footer-desc">{{ site.description | default: '拾掇笔记，温一壶风雅供来日慢赏。' }}</p>
+        <small>© {{ site.time | date: '%Y' }} {{ site.author | default: site.title | default: 'Loonghfut' }} · 由 Jekyll 驱动</small>
+      </div>
+    </footer>
+  </div>
 
   <script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
 </body>
 </html>

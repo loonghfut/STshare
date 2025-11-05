@@ -3,51 +3,74 @@ layout: default
 title: 首页
 ---
 
-<div class="hero">
-  <h2>📚 欢迎来到我的知识库</h2>
-  <p>探索知识，分享智慧，记录成长的每一步</p>
-</div>
+<section class="intro-banner">
+  <div class="banner-body">
+    <p class="banner-kicker">风雅记</p>
+    <h2>山川有灵，笔墨有情</h2>
+    <p>在这里，将零散的灵感收入折扇，将日常的心得铺陈如宣纸，慢下脚步与文字对话。</p>
+    <p>无论是创作笔记、工具拆解，还是灵感随记，都愿与同好共赏，共习沉浸阅读的温度。</p>
+  </div>
+  <div class="banner-art" aria-hidden="true">
+    <span class="sun"></span>
+    <span class="cloud one"></span>
+    <span class="cloud two"></span>
+    <span class="mountain"></span>
+  </div>
+</section>
 
-<div class="content">
-  <h2>📝 最新文章</h2>
-  
-  <div class="moc-grid">
-    {% assign all_articles = site.articles | concat: site.posts | sort: 'date' | reverse %}
+{% assign all_articles = site.articles | concat: site.posts | sort: 'date' | reverse %}
+
+<section class="section-shell">
+  <div class="section-heading">
+    <span class="section-kicker">近作</span>
+    <h3>最新文章</h3>
+    <p>从笔墨与灵感之中，挑选出最近的新作。如果一篇文字打动你，不妨收藏下来，或写信与我分享你的感受。</p>
+  </div>
+
+  <div class="reading-grid">
     {% for article in all_articles %}
-    <a href="{{ article.url | relative_url }}" class="moc-card">
-      <h3>{{ article.title }}</h3>
-      {% if article.description %}
-      <p>{{ article.description }}</p>
-      {% else %}
-      <p>{{ article.content | strip_html | truncatewords: 20 }}</p>
-      {% endif %}
-      <p class="date">{{ article.date | date: "%Y年%m月%d日" }}</p>
-    </a>
+      <a href="{{ article.url | relative_url }}" class="reading-card">
+        <h4>{{ article.title }}</h4>
+        {% if article.date %}
+          <time class="card-date" datetime="{{ article.date | date_to_xmlschema }}">{{ article.date | date: "%Y年%m月%d日" }}</time>
+        {% endif %}
+        {% if article.description %}
+          <p class="card-lead">{{ article.description }}</p>
+        {% else %}
+          <p class="card-lead">{{ article.content | strip_html | truncatewords: 26 }}</p>
+        {% endif %}
+        <span class="card-arrow">展开全文</span>
+      </a>
     {% endfor %}
-    
+
     {% if all_articles.size == 0 %}
-    <div class="moc-card">
-      <h3>暂无内容</h3>
-      <p>还没有发布任何文章。</p>
-    </div>
+      <div class="reading-card">
+        <h4>尚无记录</h4>
+        <p class="card-lead">宣纸已铺，尚待落笔。敬请期待下一次的灵感成篇。</p>
+      </div>
     {% endif %}
   </div>
+</section>
 
-  <h2>🔗 快速导航</h2>
-  <div class="moc-grid">
-    <div class="moc-card">
-      <h3>💡 关于本站</h3>
-      <p>这是一个基于 Jekyll 的个人知识库网站，支持浅色/深色模式切换，打造现代化的阅读体验。</p>
+<section class="section-shell">
+  <div class="section-heading">
+    <span class="section-kicker">导览</span>
+    <h3>徽墨指路</h3>
+    <p>循着香案上的线香，依次浏览各类主题，找到与你当下心绪相呼应的篇章。</p>
+  </div>
+
+  <div class="callout-grid">
+    <div class="callout-card">
+      <h4>关于本站</h4>
+      <p>以国风为骨，以笔记为魂，慢慢堆叠所见所思，试着让知识变得柔软可亲。</p>
     </div>
-    
-    <div class="moc-card">
-      <h3>🎨 如何使用</h3>
-      <p>点击右上角的主题切换按钮，在浅色和深色模式之间切换。点击文章卡片查看详细内容。</p>
+    <div class="callout-card">
+      <h4>阅览指引</h4>
+      <p>页面支持夜读模式，亦可通过目录快速跳转段落，安心沉浸，无需匆忙。</p>
     </div>
-    
-    <div class="moc-card">
-      <h3>🚀 现代设计</h3>
-      <p>采用现代化设计风格，提供流畅的阅读体验和优雅的视觉效果。</p>
+    <div class="callout-card">
+      <h4>更多路径</h4>
+      <p>点击导航中的“文章”与“内容”，即可按主题索引长文与素材库，自由探索。</p>
     </div>
   </div>
-</div>
+</section>

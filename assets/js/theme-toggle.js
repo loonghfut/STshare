@@ -36,14 +36,37 @@
   }
 
   // Update toggle button text/icon
+  function ensureToggleSpans(btn) {
+    let icon = btn.querySelector('.theme-toggle-icon');
+    let label = btn.querySelector('.theme-toggle-label');
+
+    if (!icon) {
+      icon = document.createElement('span');
+      icon.className = 'theme-toggle-icon';
+      btn.appendChild(icon);
+    }
+
+    if (!label) {
+      label = document.createElement('span');
+      label.className = 'theme-toggle-label';
+      btn.appendChild(label);
+    }
+
+    return { icon, label };
+  }
+
   function updateToggleButton(theme) {
     const toggleBtn = document.querySelector('.theme-toggle');
-    if (toggleBtn) {
-      if (theme === 'dark') {
-        toggleBtn.innerHTML = '<span>☀️</span><span>浅色模式</span>';
-      } else {
-        toggleBtn.innerHTML = '<span>🌙</span><span>深色模式</span>';
-      }
+    if (!toggleBtn) return;
+
+    const { icon, label } = ensureToggleSpans(toggleBtn);
+
+    if (theme === 'dark') {
+      icon.textContent = '日';
+      label.textContent = '晨读';
+    } else {
+      icon.textContent = '☽';
+      label.textContent = '夜读';
     }
   }
 

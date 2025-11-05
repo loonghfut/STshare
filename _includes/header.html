@@ -1,26 +1,24 @@
-<header class="site-header">
-  <div class="header-content">
-    <div class="brand">
-      <h1 class="site-title"><a href="{{ '/' | relative_url }}">{{ site.title | default: "Loonghfut's siyuan share" }}</a></h1>
-      <p class="site-sub">{{ site.description | default: "Map of Content Navigation" }}</p>
-    </div>
+<header class="site-header" role="banner">
+  <div class="header-ornament" aria-hidden="true"></div>
+  <div class="header-inner">
+    <a class="brand-mark" href="{{ '/' | relative_url }}">
+      <span class="brand-kicker">{{ site.tagline | default: '笔墨之间' }}</span>
+      <span class="brand-title">{{ site.title | default: '龙湖浮图' }}</span>
+      <span class="brand-subtitle">{{ site.description | default: '国风随笔与知识札记' }}</span>
+    </a>
 
     <nav class="site-nav" aria-label="主导航">
-      <ul>
-        <li><a href="{{ '/' | relative_url }}">首页</a></li>
-        <li><a href="{{ '/posts/' | relative_url }}">文章</a></li>
-        <li><a href="{{ '/content/' | relative_url }}">内容</a></li>
+      <ul class="nav-list">
+        {% assign current_url = page.url | default: '' %}
+        <li><a class="nav-link" href="{{ '/' | relative_url }}" {% if current_url == '/' %}aria-current="page"{% endif %}>首页</a></li>
+        <li><a class="nav-link" href="{{ '/posts/' | relative_url }}" {% if current_url contains '/posts/' %}aria-current="page"{% endif %}>文章</a></li>
+        <li><a class="nav-link" href="{{ '/content/' | relative_url }}" {% if current_url contains '/content/' %}aria-current="page"{% endif %}>内容</a></li>
       </ul>
     </nav>
 
-    <div class="header-actions">
-      <button class="theme-toggle" aria-label="Toggle theme">
-        <span class="theme-icon">🌙</span>
-        <span class="theme-label">深色模式</span>
-      </button>
-      <button class="hamburger" aria-label="展开菜单" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <button class="theme-toggle" type="button" aria-label="切换夜读模式">
+      <span class="theme-toggle-icon">☽</span>
+      <span class="theme-toggle-label">夜读</span>
+    </button>
   </div>
 </header>

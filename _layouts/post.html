@@ -10,18 +10,19 @@ layout: default
   {% endif %}
   
   <div class="article-header">
-    <h2>{{ page.title }}</h2>
+    <p class="article-eyebrow">文稿</p>
+    <h1>{{ page.title }}</h1>
     
     <div class="article-meta">
       {% if page.date %}
       <span class="article-meta-item">
-        📅 发布: {{ page.date | date: "%Y年%m月%d日" }}
+        首刊 · {{ page.date | date: "%Y年%m月%d日" }}
       </span>
       {% endif %}
       
       {% if page.lastmod %}
       <span class="article-meta-item">
-        🔄 更新: {{ page.lastmod | date: "%Y年%m月%d日" }}
+        修订 · {{ page.lastmod | date: "%Y年%m月%d日" }}
       </span>
       {% endif %}
     </div>
