@@ -5,15 +5,105 @@ layout: default
 <a href="{{ '/' | relative_url }}" class="back-link">← 返回首页</a>
 
 <article class="content">
-  <h2>{{ page.title }}</h2>
-  
-  {% if page.date %}
-  <p class="date">发布日期: {{ page.date | date: "%Y年%m月%d日" }}</p>
+  {% if page.featured_image %}
+  <img src="{{ page.featured_image }}" alt="{{ page.title }}" class="featured-image">
   {% endif %}
   
-  {% if page.lastmod %}
-  <p class="date">最后更新: {{ page.lastmod | date: "%Y年%m月%d日" }}</p>
-  {% endif %}
+  <div class="article-header">
+    <h2>{{ page.title }}</h2>
+    
+    <div class="article-meta">
+      {% if page.date %}
+      <span class="article-meta-item">
+        📅 发布: {{ page.date | date: "%Y年%m月%d日" }}
+      </span>
+      {% endif %}
+      
+      {% if page.lastmod %}
+      <span class="article-meta-item">
+        🔄 更新: {{ page.lastmod | date: "%Y年%m月%d日" }}
+      </span>
+      {% endif %}
+    </div>
+  </div>
   
-  {{ content }}
+  <div class="post-content">
+    <aside class="toc-wrapper">
+      <nav class="toc">
+        <h3>📑 目录</h3>
+        <div id="toc-content"></div>
+      </nav>
+    </aside>
+    
+    <div class="article-body">
+      {{ content }}
+    </div>
+  </div>
 </article>
+
+<script>
+  // Generate table of contents
+  (function() {
+    const articleBody = document.querySelector('.article-body');
+    const tocContent = document.getElementById('toc-content');
+    
+    if (!articleBody || !tocContent) return;
+    
+    const headings = articleBody.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    
+    if (headings.length === 0) {
+      // If no headings, hide the TOC
+      document.querySelector('.toc-wrapper').style.display = 'none';
+      document.querySelector('.post-content').style.gridTemplateColumns = '1fr';
+      return;
+    }
+    
+    const toc = document.createElement('ul');
+    let currentLevel = parseInt(headings[0].tagName.substring(1));
+    let currentList = toc;
+    const listStack = [toc];
+    
+    headings.forEach((heading, index) => {
+      const level = parseInt(heading.tagName.substring(1));
+      const id = heading.id || `heading-${index}`;
+      heading.id = id;
+      
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.textContent = heading.textContent;
+      li.appendChild(a);
+      
+      if (level > currentLevel) {
+        const ul = document.createElement('ul');
+        if (currentList.lastElementChild) {
+          currentList.lastElementChild.appendChild(ul);
+        }
+        currentList = ul;
+        listStack.push(ul);
+      } else if (level < currentLevel) {
+        while (listStack.length > 1 && level < currentLevel) {
+          listStack.pop();
+          currentList = listStack[listStack.length - 1];
+          currentLevel--;
+        }
+      }
+      
+      currentList.appendChild(li);
+      currentLevel = level;
+    });
+    
+    tocContent.appendChild(toc);
+    
+    // Smooth scroll
+    tocContent.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  })();
+</script>

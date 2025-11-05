@@ -3,11 +3,14 @@ layout: default
 title: 首页
 ---
 
-<div class="content">
-  <h2>📚 内容导航 (MOC - Map of Content)</h2>
-  
-  <p>欢迎来到我的知识库！这里是所有内容的导航页面。</p>
+<div class="hero">
+  <h2>📚 欢迎来到我的知识库</h2>
+  <p>探索知识，分享智慧，记录成长的每一步</p>
+</div>
 
+<div class="content">
+  <h2>📝 最新文章</h2>
+  
   <div class="moc-grid">
     {% assign all_articles = site.articles | concat: site.posts | sort: 'date' | reverse %}
     {% for article in all_articles %}
@@ -30,16 +33,21 @@ title: 首页
     {% endif %}
   </div>
 
-  <h2>🔗 快速链接</h2>
+  <h2>🔗 快速导航</h2>
   <div class="moc-grid">
     <div class="moc-card">
-      <h3>关于本站</h3>
-      <p>这是一个基于 Jekyll 的个人知识库网站，支持浅色/深色模式切换。</p>
+      <h3>💡 关于本站</h3>
+      <p>这是一个基于 Jekyll 的个人知识库网站，支持浅色/深色模式切换，打造现代化的阅读体验。</p>
     </div>
     
     <div class="moc-card">
-      <h3>如何使用</h3>
-      <p>点击右上角的主题切换按钮，在浅色和深色模式之间切换。点击卡片查看详细内容。</p>
+      <h3>🎨 如何使用</h3>
+      <p>点击右上角的主题切换按钮，在浅色和深色模式之间切换。点击文章卡片查看详细内容。</p>
+    </div>
+    
+    <div class="moc-card">
+      <h3>🚀 现代设计</h3>
+      <p>采用现代化设计风格，提供流畅的阅读体验和优雅的视觉效果。</p>
     </div>
   </div>
 </div>
