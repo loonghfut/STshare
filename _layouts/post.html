@@ -52,7 +52,7 @@ layout: default
     const articleBody = document.querySelector('.article-body');
     const articleHeader = document.querySelector('.article-header');
     
-    if (!articleBody || !articleHeader) return;
+    if (!articleBody || !articleHeader || !articleHeader.parentElement) return;
     
     // Find the first image in article body
     const firstImg = articleBody.querySelector('img');
@@ -157,19 +157,19 @@ layout: default
     // Load saved state from localStorage
     const tocCollapsed = localStorage.getItem('toc-collapsed') === 'true';
     if (tocCollapsed) {
-      tocContent.style.display = 'none';
+      tocContent.classList.add('collapsed');
       tocIcon.textContent = '▶';
     }
     
     tocToggle.addEventListener('click', () => {
-      const isCollapsed = tocContent.style.display === 'none';
+      const isCollapsed = tocContent.classList.contains('collapsed');
       
       if (isCollapsed) {
-        tocContent.style.display = 'block';
+        tocContent.classList.remove('collapsed');
         tocIcon.textContent = '▼';
         localStorage.setItem('toc-collapsed', 'false');
       } else {
-        tocContent.style.display = 'none';
+        tocContent.classList.add('collapsed');
         tocIcon.textContent = '▶';
         localStorage.setItem('toc-collapsed', 'true');
       }

@@ -365,6 +365,10 @@ article.post-content {
   line-height: 1;
 }
 
+#toc-content.collapsed {
+  display: none;
+}
+
 .toc ul {
   list-style: none;
   margin: 0;
