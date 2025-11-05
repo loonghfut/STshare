@@ -144,7 +144,7 @@ p{margin:0 0 1.2em}
 .article-body pre{background:rgba(20,17,14,0.86);color:#f6f0e8;padding:18px;border-radius:14px;border:none;overflow:auto;box-shadow:0 16px 32px rgba(31,21,12,0.38)}
 .article-body code{background:rgba(194,80,76,0.16);padding:3px 6px;border-radius:6px;font-family:'Fira Code','SFMono-Regular',Menlo,monospace;font-size:0.95em}
 
-.post-content{display:grid;grid-template-columns:2fr minmax(240px,320px);gap:38px;align-items:start}
+.post-content{display:grid;grid-template-columns:2fr minmax(240px,770px);gap:38px;align-items:start}
 .outline-panel{position:sticky;top:120px;background:var(--surface);border-radius:var(--radius-md);border:1px solid var(--border);box-shadow:var(--shadow-sm);padding:16px 18px}
 .outline-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .outline-header strong{font-size:1.02rem;color:var(--accent)}
