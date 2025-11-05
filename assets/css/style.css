@@ -575,3 +575,34 @@ li {
     height: 250px;
   }
 }
+
+/* 固定的恢复目录按钮（当侧边栏被完全折叠时显示） */
+.toc-restore-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 18px var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform var(--transition-speed), opacity var(--transition-speed);
+  opacity: 0.98;
+}
+
+.toc-restore-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* 在移动设备上不显示该固定按钮（移动端有单列 TOC） */
+@media (max-width: 768px) {
+  .toc-restore-btn {
+    display: none;
+  }
+}

@@ -167,6 +167,8 @@ layout: default
         tocContent.classList.add('collapsed');
         if (postContentEl) postContentEl.classList.add('toc-collapsed');
         tocIcon.textContent = '▶';
+        // 当页面加载且为折叠状态时，显示恢复按钮
+        if (headings.length > 0) createRestoreButton();
       }
 
       tocToggle.addEventListener('click', () => {
@@ -180,6 +182,8 @@ layout: default
           tocToggle.setAttribute('aria-expanded', 'true');
           tocToggle.title = '折叠目录';
           localStorage.setItem('toc-collapsed', 'false');
+          // 折叠被展开，移除恢复按钮（如果存在）
+          removeRestoreButton();
         } else {
           // collapse
           tocContent.classList.add('collapsed');
@@ -188,8 +192,37 @@ layout: default
           tocToggle.setAttribute('aria-expanded', 'false');
           tocToggle.title = '展开目录';
           localStorage.setItem('toc-collapsed', 'true');
+          // 折叠后创建恢复按钮
+          if (headings.length > 0) createRestoreButton();
         }
       });
+    }
+
+    // 创建用于恢复被折叠 TOC 的固定按钮（当 TOC 完全隐藏时可见）
+    function createRestoreButton() {
+      if (document.getElementById('toc-restore-btn')) return;
+      const btn = document.createElement('button');
+      btn.id = 'toc-restore-btn';
+      btn.className = 'toc-restore-btn';
+      btn.title = '显示目录';
+      btn.setAttribute('aria-label', 'Show table of contents');
+      btn.textContent = '📑';
+      btn.addEventListener('click', () => {
+        // 恢复 TOC
+        tocContent.classList.remove('collapsed');
+        if (postContentEl) postContentEl.classList.remove('toc-collapsed');
+        tocIcon.textContent = '▼';
+        tocToggle.setAttribute('aria-expanded', 'true');
+        tocToggle.title = '折叠目录';
+        localStorage.setItem('toc-collapsed', 'false');
+        removeRestoreButton();
+      });
+      document.body.appendChild(btn);
+    }
+
+    function removeRestoreButton() {
+      const b = document.getElementById('toc-restore-btn');
+      if (b) b.remove();
     }
   })();
 </script>
