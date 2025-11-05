@@ -8,6 +8,20 @@ url: "https://loonghfut.github.io"
 markdown: kramdown
 permalink: /posts/:year-:month-:day/:title/
 
+# Collections
+collections:
+  articles:
+    output: true
+    permalink: /articles/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "articles"
+    values:
+      layout: "post"
+
 # Exclude files
 exclude:
   - readme.md
@@ -15,4 +29,3 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
-  - content
