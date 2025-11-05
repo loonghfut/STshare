@@ -155,28 +155,41 @@ layout: default
     const tocIcon = document.querySelector('.toc-toggle-icon');
     const postContentEl = document.querySelector('.post-content');
 
-    // Load saved state from localStorage
-    const tocCollapsed = localStorage.getItem('toc-collapsed') === 'true';
-    if (tocCollapsed) {
-      tocContent.classList.add('collapsed');
-      if (postContentEl) postContentEl.classList.add('toc-collapsed');
-      tocIcon.textContent = '▶';
-    }
+    if (tocToggle) {
+      // Load saved state from localStorage
+      const tocCollapsed = localStorage.getItem('toc-collapsed') === 'true';
 
-    tocToggle.addEventListener('click', () => {
-      const isCollapsed = tocContent.classList.contains('collapsed');
+      // set initial aria state
+      tocToggle.setAttribute('aria-expanded', tocCollapsed ? 'false' : 'true');
+      tocToggle.title = tocCollapsed ? '展开目录' : '折叠目录';
 
-      if (isCollapsed) {
-        tocContent.classList.remove('collapsed');
-        if (postContentEl) postContentEl.classList.remove('toc-collapsed');
-        tocIcon.textContent = '▼';
-        localStorage.setItem('toc-collapsed', 'false');
-      } else {
+      if (tocCollapsed) {
         tocContent.classList.add('collapsed');
         if (postContentEl) postContentEl.classList.add('toc-collapsed');
         tocIcon.textContent = '▶';
-        localStorage.setItem('toc-collapsed', 'true');
       }
-    });
+
+      tocToggle.addEventListener('click', () => {
+        const isCollapsed = tocContent.classList.contains('collapsed');
+
+        if (isCollapsed) {
+          // expand
+          tocContent.classList.remove('collapsed');
+          if (postContentEl) postContentEl.classList.remove('toc-collapsed');
+          tocIcon.textContent = '▼';
+          tocToggle.setAttribute('aria-expanded', 'true');
+          tocToggle.title = '折叠目录';
+          localStorage.setItem('toc-collapsed', 'false');
+        } else {
+          // collapse
+          tocContent.classList.add('collapsed');
+          if (postContentEl) postContentEl.classList.add('toc-collapsed');
+          tocIcon.textContent = '▶';
+          tocToggle.setAttribute('aria-expanded', 'false');
+          tocToggle.title = '展开目录';
+          localStorage.setItem('toc-collapsed', 'true');
+        }
+      });
+    }
   })();
 </script>

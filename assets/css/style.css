@@ -255,6 +255,9 @@ article.post-content {
 /* 强制 grid 项目位置：确保即使 DOM 中 TOC 在前也能定位到右侧 */
 .toc-wrapper {
   grid-column: 2;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .article-body {
@@ -263,27 +266,69 @@ article.post-content {
 
 /* 当侧边目录折叠时，将右侧列缩小为窄条，避免留下大片空白 */
 .post-content.toc-collapsed {
+  /* shrink right column to a narrow toggle column */
   grid-template-columns: 1fr 48px;
 }
 
+.post-content.toc-collapsed .toc-wrapper {
+  justify-content: center;
+}
+
 .post-content.toc-collapsed .toc {
-  padding: 8px;
+  padding: 6px;
   overflow: visible;
+  width: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-content.toc-collapsed .toc-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0;
 }
 
 .post-content.toc-collapsed .toc h3 {
   display: none;
 }
 
+/* hide the list and any content when collapsed */
 .post-content.toc-collapsed .toc ul,
-.post-content.toc-collapsed #toc-content {
-  display: none;
+.post-content.toc-collapsed #toc-content,
+.post-content.toc-collapsed .toc > ul {
+  display: none !important;
 }
 
 .post-content.toc-collapsed .toc-toggle {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ensure toggle is visible and accessible */
+.toc-toggle {
+  position: relative;
+  z-index: 2;
+}
+
+/* Small screens: ignore collapsed grid sizing and fall back to single column */
+@media (max-width: 768px) {
+  .post-content.toc-collapsed {
+    grid-template-columns: 1fr;
+  }
+
+  .post-content.toc-collapsed .toc {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 16px;
+  }
 }
 
 /* Featured/Header image */
@@ -347,6 +392,11 @@ article.post-content {
   position: sticky;
   top: 20px;
   height: fit-content;
+  /* ensure it stays in right column when sticky */
+  grid-column: 2;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .toc {
