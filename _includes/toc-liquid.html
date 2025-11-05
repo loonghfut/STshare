@@ -1,0 +1,57 @@
+<nav class="toc">
+  <div class="toc-header">
+    <h3>📑 目录</h3>
+  </div>
+  <div id="toc-content">
+    {% assign content_html = page.content %}
+    {% assign h2_sections = content_html | split:'<h2' %}
+
+    {% if h2_sections.size > 1 %}
+      <ul>
+      {% for section in h2_sections %}
+        {% if forloop.first %}{% continue %}{% endif %}
+        {% comment %} extract heading id if present {% endcomment %}
+        {% assign id = nil %}
+        {% if section contains 'id="' %}
+          {% assign id = section | split:'id="' | last | split:'"' | first %}
+        {% endif %}
+
+        {% assign heading_text = section | split:'</h2' | first | split:'>' | last | strip %}
+
+        <li>
+          {% if id %}
+            <a href="#{{ id }}" class="toc-link">{{ heading_text }}</a>
+          {% else %}
+            <a href="#{{ heading_text | strip | replace: ' ', '-' | downcase }}" class="toc-link">{{ heading_text }}</a>
+          {% endif %}
+
+          {% comment %} check for h3s under this h2 and render as nested list {% endcomment %}
+          {% assign rest = section | split:'</h2' | last %}
+          {% if rest contains '<h3' %}
+            {% assign h3s = rest | split:'<h3' %}
+            <ul>
+            {% for s3 in h3s %}
+              {% if forloop.first %}{% continue %}{% endif %}
+              {% assign id3 = nil %}
+              {% if s3 contains 'id="' %}
+                {% assign id3 = s3 | split:'id="' | last | split:'"' | first %}
+              {% endif %}
+              {% assign text3 = s3 | split:'</h3' | first | split:'>' | last | strip %}
+              <li>
+                {% if id3 %}
+                  <a href="#{{ id3 }}" class="toc-link">{{ text3 }}</a>
+                {% else %}
+                  <a href="#{{ text3 | strip | replace: ' ', '-' | downcase }}" class="toc-link">{{ text3 }}</a>
+                {% endif %}
+              </li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">本文没有可用的标题。</p>
+    {% endif %}
+  </div>
+</nav>

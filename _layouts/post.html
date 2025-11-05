@@ -29,15 +29,7 @@ layout: default
   
   <div class="post-content">
     <aside class="toc-wrapper">
-      <nav class="toc">
-        <div class="toc-header">
-          <h3>📑 目录</h3>
-          <button class="toc-toggle" aria-label="Toggle table of contents">
-            <span class="toc-toggle-icon">▼</span>
-          </button>
-        </div>
-        <div id="toc-content"></div>
-      </nav>
+      {% include toc-liquid.html %}
     </aside>
     
     <div class="article-body">
@@ -87,5 +79,4 @@ layout: default
 
   // TOC logic moved to external file for maintainability
 </script>
-<script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
-</script>
+<!-- TOC is generated server-side via include -->
