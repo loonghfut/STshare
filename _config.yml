@@ -1,0 +1,18 @@
+# Site settings
+title: Loonghfut's MOC
+description: Map of Content Navigation
+baseurl: ""
+url: "https://loonghfut.github.io"
+
+# Build settings
+markdown: kramdown
+permalink: /posts/:year-:month-:day/:title/
+
+# Exclude files
+exclude:
+  - readme.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - content

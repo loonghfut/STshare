@@ -1,0 +1,45 @@
+---
+layout: default
+title: 首页
+---
+
+<div class="content">
+  <h2>📚 内容导航 (MOC - Map of Content)</h2>
+  
+  <p>欢迎来到我的知识库！这里是所有内容的导航页面。</p>
+
+  <div class="moc-grid">
+    {% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+    {% for post in sorted_posts %}
+    <a href="{{ post.url | relative_url }}" class="moc-card">
+      <h3>{{ post.title }}</h3>
+      {% if post.description %}
+      <p>{{ post.description }}</p>
+      {% else %}
+      <p>{{ post.content | strip_html | truncatewords: 20 }}</p>
+      {% endif %}
+      <p class="date">{{ post.date | date: "%Y年%m月%d日" }}</p>
+    </a>
+    {% endfor %}
+    
+    {% if site.posts.size == 0 %}
+    <div class="moc-card">
+      <h3>暂无内容</h3>
+      <p>还没有发布任何文章。</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <h2>🔗 快速链接</h2>
+  <div class="moc-grid">
+    <div class="moc-card">
+      <h3>关于本站</h3>
+      <p>这是一个基于 Jekyll 的个人知识库网站，支持浅色/深色模式切换。</p>
+    </div>
+    
+    <div class="moc-card">
+      <h3>如何使用</h3>
+      <p>点击右上角的主题切换按钮，在浅色和深色模式之间切换。点击卡片查看详细内容。</p>
+    </div>
+  </div>
+</div>

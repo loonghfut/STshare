@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+<a href="{{ '/' | relative_url }}" class="back-link">← 返回首页</a>
+
+<article class="content">
+  <h2>{{ page.title }}</h2>
+  
+  {% if page.date %}
+  <p class="date">发布日期: {{ page.date | date: "%Y年%m月%d日" }}</p>
+  {% endif %}
+  
+  {% if page.lastmod %}
+  <p class="date">最后更新: {{ page.lastmod | date: "%Y年%m月%d日" }}</p>
+  {% endif %}
+  
+  {{ content }}
+</article>
