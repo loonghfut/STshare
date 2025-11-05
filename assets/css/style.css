@@ -266,18 +266,19 @@ article.post-content {
 
 /* 当侧边目录折叠时，将右侧列缩小为窄条，避免留下大片空白 */
 .post-content.toc-collapsed {
-  /* 折叠时隐藏侧边栏，正文占满全宽 */
-  grid-template-columns: 1fr;
+  /* 不改变 grid 布局，保持正文列宽固定（折叠只隐藏侧边内容，不影响正文排版） */
+  grid-template-columns: 3fr 1fr;
 }
 
-/* 隐藏侧边栏容器（折叠时） */
-.post-content.toc-collapsed .toc-wrapper {
-  display: none;
-}
-
-/* 当折叠时，确保任何残留的 TOC 内容也隐藏 */
-.post-content.toc-collapsed #toc-content,
+/* 折叠时隐藏 TOC 的可见内容，但保留右侧占位，避免正文宽度变化 */
 .post-content.toc-collapsed .toc {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--transition-speed);
+}
+
+.post-content.toc-collapsed #toc-content {
   display: none !important;
 }
 
