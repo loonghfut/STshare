@@ -69,7 +69,8 @@
 
   // Listen for system theme changes
   if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeQuery.addEventListener('change', function(e) {
       if (!localStorage.getItem('theme')) {
         const newTheme = e.matches ? 'dark' : 'light';
         applyTheme(newTheme);
