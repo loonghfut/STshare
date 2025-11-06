@@ -2328,12 +2328,14 @@ dv.render();
 
 使用模板还有一个好处是，可以使用一些模板提供的变量，例如下面这个模板中，使用了 `$datestr_sy` 变量，用来查询今天创建的文档。
 
+{% raw %}
 ```markdown
 .action{$datestr := now | date "2006-01-02"}
 .action{$datestr_sy := now | date "20060102"}
 
 {{//!js_esc_newline_const today = '.action{$datestr_sy}';_esc_newline_const query = async () => {_esc_newline_  let dv = Query.Dataview(protyle, item, top);_esc_newline_  let blocks = await Query.sql(`_esc_newline_    select * from blocks where type='d' and created like '${today}%'_esc_newline_  `);_esc_newline_  dv.addList(blocks, { type: 'o', columns: 2 });_esc_newline_  dv.render();_esc_newline_}_esc_newline_return query();}}
 ```
+{% endraw %}
 
 同样的功能虽然也能用 `Query.Utils.today()`​ 来实现，但是由于嵌入块每天都会刷新，如果想要固定显示某一天创建的文档，要么手动填写 `today`​ 变量，要么使用 `state` 功能在第一次的时候直接保存日期信息。
 

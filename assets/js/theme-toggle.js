@@ -79,7 +79,7 @@
     // Add event listener to toggle button
     const toggleBtn = document.querySelector('.theme-toggle');
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', toggleTheme);
+      toggleBtn.addEventListener('click', (window.safeAction && window.safeAction(toggleTheme)) || toggleTheme);
     }
   }
 
@@ -93,12 +93,12 @@
   // Listen for system theme changes
   if (window.matchMedia) {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    darkModeQuery.addEventListener('change', function(e) {
+    darkModeQuery.addEventListener('change', (window.safeAction && window.safeAction(function(e){
       if (!localStorage.getItem('theme')) {
         const newTheme = e.matches ? 'dark' : 'light';
         applyTheme(newTheme);
         updateToggleButton(newTheme);
       }
-    });
+    })) || function(e){ if (!localStorage.getItem('theme')){ const newTheme = e.matches ? 'dark' : 'light'; applyTheme(newTheme); updateToggleButton(newTheme);} });
   }
 })();

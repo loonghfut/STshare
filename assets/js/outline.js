@@ -84,11 +84,11 @@
     if(history.replaceState){ history.replaceState(null, '', `#${id}`); }
   }
   $all('a', container).forEach(a => {
-    a.addEventListener('click', (e) => {
+    a.addEventListener('click', (window.safeAction && window.safeAction(function (e) {
       e.preventDefault();
       const id = a.dataset.target || a.getAttribute('href').slice(1);
       scrollToId(id);
-    });
+    })) || function(e){ e.preventDefault(); const id = a.dataset.target || a.getAttribute('href').slice(1); scrollToId(id); });
   });
 
   // Active section highlighting
@@ -96,7 +96,7 @@
   $all('a', container).forEach(a => { linkById[a.dataset.target] = a; });
 
   if('IntersectionObserver' in window){
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((window.safeAction && window.safeAction(function (entries) {
       entries.forEach(ent => {
         const id = ent.target.id;
         const link = linkById[id];
@@ -113,7 +113,7 @@
           }
         }
       });
-    }, { rootMargin: `-${Math.max(0, getHeaderOffset()-8)}px 0px -60% 0px`, threshold: 0 });
+    })) || function(entries){ entries.forEach(function(ent){ const id = ent.target.id; const link = linkById[id]; if(!link) return; if(ent.isIntersecting){ $all('.is-active', container).forEach(n => n.classList.remove('is-active')); link.classList.add('is-active'); let p = link.parentElement; while(p && p !== container){ if(p.tagName === 'UL'){ p.style.display = ''; } p = p.parentElement; } } }); } , { rootMargin: `-${Math.max(0, getHeaderOffset()-8)}px 0px -60% 0px`, threshold: 0 });
 
     headings.forEach(h => observer.observe(h));
   }
@@ -132,9 +132,9 @@
   if(saved === '1'){ setCollapsed(true); }
 
   if(toggleBtn){
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (window.safeAction && window.safeAction(function (){
       const willCollapse = !panel.classList.contains('is-collapsed');
       setCollapsed(willCollapse);
-    });
+    })) || function(){ const willCollapse = !panel.classList.contains('is-collapsed'); setCollapsed(willCollapse); });
   }
 })();
